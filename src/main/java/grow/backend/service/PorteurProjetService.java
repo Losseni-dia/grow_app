@@ -1,13 +1,14 @@
 package grow.backend.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import grow.backend.exception.handler.PorteurProjetNotFoundException;
 import grow.backend.model.PorteurProjet;
 import grow.backend.repository.PorteurProjetRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class PorteurProjetService {
@@ -15,14 +16,18 @@ public class PorteurProjetService {
     @Autowired
     private PorteurProjetRepository porteurProjetRepository;
 
-   public List<PorteurProjet> getAll() {
+    public List<PorteurProjet> getAll() {
         List<PorteurProjet> result = new ArrayList<>();
         porteurProjetRepository.findAll().forEach(result::add);
+        if (result.isEmpty()) {
+            throw new PorteurProjetNotFoundException(-1L);
+        }
         return result;
     }
 
     public PorteurProjet get(Long id) {
-        return porteurProjetRepository.findById(id).orElse(null);
+        return porteurProjetRepository.findById(id)
+                .orElseThrow(() -> new PorteurProjetNotFoundException(id));
     }
 
     public void add(PorteurProjet porteur) {
@@ -30,23 +35,18 @@ public class PorteurProjetService {
     }
 
     public void deleteById(Long id) {
-        porteurProjetRepository.deleteById(id);
+        if (porteurProjetRepository.existsById(id)) {
+            porteurProjetRepository.deleteById(id);
+        } else {
+            throw new PorteurProjetNotFoundException(id);
+        }
     }
 
-    public void updatePorteurProjet( Long id, PorteurProjet porteurProjet) {
-        porteurProjetRepository.save(porteurProjet);
+    public void updatePorteurProjet(Long id, PorteurProjet porteurProjet) {
+        if (porteurProjetRepository.existsById(id)) {
+            porteurProjetRepository.save(porteurProjet);
+        } else {
+            throw new PorteurProjetNotFoundException(id);
+        }
     }
-
-    /*
-     * public PorteurProjet updatePorteurProjet(Long id, PorteurProjet
-     * updatedPorteur) {
-     * return porteurProjetRepository.findById(id)
-     * .map(porteur -> {
-     * porteur.setLogin(updatedPorteur.getLogin());
-     * // mettre à jour autres champs selon besoin
-     * return porteurProjetRepository.save(porteur);
-     * }).orElseThrow(() -> new RuntimeException("PorteurProjet not found with id "
-     * + id));
-     * }
-     */
 }

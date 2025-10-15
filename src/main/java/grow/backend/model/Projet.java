@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "projets")
 @Getter
@@ -15,6 +18,7 @@ public class Projet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String libelle;
 
     private String description;
@@ -37,5 +41,37 @@ public class Projet {
 
     @ManyToOne
     @JoinColumn(name = "site_id")
-    private SiteProjet site;
+    private SiteProjet siteProjet;
+
+    @OneToMany(mappedBy = "projet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Campagne> campagnes = new ArrayList<>();
+
+
+    public void setPorteurProjet(PorteurProjet porteurProjet) {
+        this.porteurProjet = porteurProjet;
+        if (porteurProjet != null && !porteurProjet.getProjets().contains(this)) {
+            porteurProjet.getProjets().add(this);
+        }
+    }
+    
+    public void setSiteProjet(SiteProjet site) {
+        this.siteProjet = site;
+        if (siteProjet != null && !siteProjet.getProjets().contains(this)) {
+            siteProjet.getProjets().add(this);
+        }
+    }
+
+    public void addCampagne(Campagne campagne) {
+        campagnes.add(campagne);
+        if (campagne.getProjet() != this) {
+            campagne.setProjet(this);
+        }
+    }
+
+    public void removeCampagne(Campagne campagne) {
+        campagnes.remove(campagne);
+        if (campagne.getProjet() == this) {
+            campagne.setProjet(null);
+        }
+    }
 }

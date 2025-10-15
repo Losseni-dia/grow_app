@@ -18,9 +18,29 @@ public class SiteProjet {
     private String nom;
 
     @ManyToOne
-    @JoinColumn(name = "ville_id")
-    private Ville ville;
+    @JoinColumn(name = "localite_id")
+    private Localite localite;
 
     @OneToMany(mappedBy = "site")
     private List<Projet> projets;
+
+    public void setLocalite(Localite localite) {
+        this.localite = localite;
+        if (localite != null && !localite.getSites().contains(this)) {
+            localite.getSites().add(this);
+        }
+    }
+
+    public void addProjet(Projet projet) {
+        projets.add(projet);
+        if (projet.getSiteProjet() != this) {
+            projet.setSiteProjet(this);
+        }
+    }
+
+    public void removeProjet(Projet projet) {
+        if (projet.getSiteProjet() != this) {
+            projet.setSiteProjet(null);
+        }
+    }
 }

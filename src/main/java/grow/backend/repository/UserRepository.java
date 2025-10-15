@@ -1,6 +1,7 @@
 package grow.backend.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -10,6 +11,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User findByLogin(String login);
 
     List<User> findByLastname(String lastname);
-
-    User findById(long id);
+    
+    Optional<User> findById(long id);
 }

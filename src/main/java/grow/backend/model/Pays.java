@@ -18,5 +18,19 @@ public class Pays {
     private String nom;
 
     @OneToMany(mappedBy = "pays")
-    private List<Ville> villes;
+    private List<Localite> localites;
+
+    public void addLocalite(Localite localite) {
+        localites.add(localite);
+        if (localite.getPays() != this) {
+            localite.setPays(this);
+        }
+    }
+
+    public void removeProjet(Localite localite) {
+        localites.remove(localite);
+        if (localite.getPays() != this) {
+            localite.setPays(null);
+        }
+    }
 }

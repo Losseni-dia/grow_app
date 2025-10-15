@@ -1,9 +1,12 @@
 package grow.backend.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.ArrayList;
+
+import grow.backend.exception.handler.ProjetNotFoundException;
 import grow.backend.model.Projet;
 import grow.backend.repository.ProjetRepository;
 
@@ -16,42 +19,74 @@ public class ProjetService {
     public List<Projet> findAll() {
         List<Projet> result = new ArrayList<>();
         projetRepository.findAll().forEach(result::add);
+        if (result.isEmpty()) {
+            throw new ProjetNotFoundException(-1L);
+        }
         return result;
     }
 
-    public void findById(Long id) {
-        projetRepository.findById(id);
+    public Projet findById(Long id) {
+        return projetRepository.findById(id)
+                .orElseThrow(() -> new ProjetNotFoundException(id));
     }
 
     public List<Projet> findByPorteurProjetId(Long porteurId) {
-        return projetRepository.findByPorteurProjetId(porteurId);
+        List<Projet> projets = projetRepository.findByPorteurProjetId(porteurId);
+        if (projets.isEmpty()) {
+            throw new ProjetNotFoundException(porteurId);
+        }
+        return projets;
     }
 
     public List<Projet> findByLibelleContainingIgnoreCase(String libelle) {
-        return projetRepository.findByLibelleContainingIgnoreCase(libelle);
+        List<Projet> projets = projetRepository.findByLibelleContainingIgnoreCase(libelle);
+        if (projets.isEmpty()) {
+            throw new ProjetNotFoundException(-1L);
+        }
+        return projets;
     }
 
     public List<Projet> findBySecteurIgnoreCase(String secteur) {
-        return projetRepository.findBySecteurIgnoreCase(secteur);
+        List<Projet> projets = projetRepository.findBySecteurIgnoreCase(secteur);
+        if (projets.isEmpty()) {
+            throw new ProjetNotFoundException(-1L);
+        }
+        return projets;
     }
 
     public List<Projet> findBySiteVillePaysNomIgnoreCase(String nomPays) {
-        return projetRepository.findBySiteVillePaysNomIgnoreCase(nomPays);
+        List<Projet> projets = projetRepository.findBySiteVillePaysNomIgnoreCase(nomPays);
+        if (projets.isEmpty()) {
+            throw new ProjetNotFoundException(-1L);
+        }
+        return projets;
     }
 
-    public List<Projet> findBySiteVilleNomIgnoreCase(String nomVille) {
-        return projetRepository.findBySiteVilleNomIgnoreCase(nomVille);
+    public List<Projet> findBySiteLocaliteNomIgnoreCase(String nomLocalite) {
+        List<Projet> projets = projetRepository.findBySiteVilleNomIgnoreCase(nomLocalite);
+        if (projets.isEmpty()) {
+            throw new ProjetNotFoundException(-1L);
+        }
+        return projets;
     }
 
     public void add(Projet projet) {
-         projetRepository.save(projet);
-    }
-
-    public void updateProjet(Projet projet) {
         projetRepository.save(projet);
     }
 
+    public void updateProjet(Projet projet) {
+        if (projetRepository.existsById(projet.getId())) {
+            projetRepository.save(projet);
+        } else {
+            throw new ProjetNotFoundException(projet.getId());
+        }
+    }
+
     public void deleteById(Long id) {
-        projetRepository.deleteById(id);
+        if (projetRepository.existsById(id)) {
+            projetRepository.deleteById(id);
+        } else {
+            throw new ProjetNotFoundException(id);
+        }
     }
 }

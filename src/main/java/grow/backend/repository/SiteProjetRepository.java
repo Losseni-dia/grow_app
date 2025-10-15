@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface SiteProjetRepository extends CrudRepository<SiteProjet, Long> {
-    List<SiteProjet> findByVilleId(Long villeId);
+    List<SiteProjet> findByLocaliteId(Long LocaliteId);
 }
