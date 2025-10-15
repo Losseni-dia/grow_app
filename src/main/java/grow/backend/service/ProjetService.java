@@ -54,16 +54,16 @@ public class ProjetService {
         return projets;
     }
 
-    public List<Projet> findBySiteVillePaysNomIgnoreCase(String nomPays) {
-        List<Projet> projets = projetRepository.findBySiteVillePaysNomIgnoreCase(nomPays);
+    public List<Projet> findBySiteProjetLocalitePaysNomIgnoreCase(String nomPays) {
+        List<Projet> projets = projetRepository.findBySiteProjetLocalitePaysNom(nomPays);
         if (projets.isEmpty()) {
             throw new ProjetNotFoundException(-1L);
         }
         return projets;
     }
 
-    public List<Projet> findBySiteLocaliteNomIgnoreCase(String nomLocalite) {
-        List<Projet> projets = projetRepository.findBySiteVilleNomIgnoreCase(nomLocalite);
+    public List<Projet> findBySiteProjetLocaliteNomIgnoreCase(String nomLocalite) {
+        List<Projet> projets = projetRepository.findBySiteProjetLocaliteNomIgnoreCase(nomLocalite);
         if (projets.isEmpty()) {
             throw new ProjetNotFoundException(-1L);
         }

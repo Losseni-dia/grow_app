@@ -21,10 +21,10 @@ public interface ProjetRepository extends CrudRepository<Projet, Long> {
     List<Projet> findBySecteurIgnoreCase(String secteur);
 
     // Recherche par pays (nom) via site -> ville -> pays
-    List<Projet> findBySiteVillePaysNomIgnoreCase(String pays);
+    List<Projet> findBySiteProjetLocalitePaysNom(String nom);
 
     // Recherche par ville (nom) via site -> ville
-    List<Projet> findBySiteVilleNomIgnoreCase(String ville);
+    List<Projet> findBySiteProjetLocaliteNomIgnoreCase(String ville);
     
     List<Projet> findByPorteurProjetId(Long porteurProjetId);
 }

@@ -21,7 +21,7 @@ public class SiteProjet {
     @JoinColumn(name = "localite_id")
     private Localite localite;
 
-    @OneToMany(mappedBy = "site")
+    @OneToMany(mappedBy = "siteProjet")
     private List<Projet> projets;
 
     public void setLocalite(Localite localite) {

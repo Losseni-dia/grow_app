@@ -4,7 +4,9 @@ public enum UserRole {
     ADMIN("admin"),
     AGENT("agent"),
     USER("user"),
-    PARTENAIRE("partenaire");
+    PARTENAIRE("partenaire"),
+    PORTEUR("porteur de projet"),
+    INVESTISSEUR("investisseur");
    
     private String role;
 

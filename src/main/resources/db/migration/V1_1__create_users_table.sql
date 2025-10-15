@@ -7,7 +7,7 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `langue` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pays` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` enum('ADMIN','AGENT','PARTENAIRE','') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` enum('ADMIN','AGENT','PARTENAIRE','PORTEUR','INVESTISSEUR') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
