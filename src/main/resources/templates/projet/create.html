@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Création d'un projet</title>
+    <style>
+        .fieldError {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div layout:fragment="content">
+            <h1>Création d'un nouveau projet</h1>
+
+            <form th:action="@{/projets/create}" th:object="${projet}" method="post">
+                <div>
+                    <label>Libellé :</label>
+                    <input type="text" th:field="*{libelle}" maxlength="150" required />
+                    <p th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>Description :</label>
+                    <textarea th:field="*{description}" rows="4" maxlength="1000" required></textarea>
+                    <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>Secteur :</label>
+                    <input type="text" th:field="*{secteur}" maxlength="100" />
+                    <p th:if="${#fields.hasErrors('secteur')}" th:errors="*{secteur}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>Valuation (francs CFA) :</label>
+                    <input type="number" th:field="*{valuation}" min="0" step="0.01" required />
+                    <p th:if="${#fields.hasErrors('valuation')}" th:errors="*{valuation}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>ROI Projeté (%) :</label>
+                    <input type="number" th:field="*{roiProjete}" min="0" max="100" step="0.01" />
+                    <p th:if="${#fields.hasErrors('roiProjete')}" th:errors="*{roiProjete}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>Statut du projet :</label>
+                    <input type="text" th:field="*{statutProjet}" maxlength="50" />
+                    <p th:if="${#fields.hasErrors('statutProjet')}" th:errors="*{statutProjet}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>Business Plan :</label>
+                    <textarea th:field="*{businessPlan}" rows="4"></textarea>
+                    <p th:if="${#fields.hasErrors('businessPlan')}" th:errors="*{businessPlan}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>Porteur de projet :</label>
+                    <select th:field="*{porteurProjet}" required>
+                        <option th:each="personne : ${personnes}" th:value="${personne.id}"
+                            th:text="${personne.prenom + ' ' + personne.nom}">Nom Prenom</option>
+                    </select>
+                    <p th:if="${#fields.hasErrors('porteurProjet')}" th:errors="*{porteurProjet}" class="fieldError">
+                    </p>
+                </div>
+
+                <div>
+                    <label>Site du projet :</label>
+                    <select th:field="*{siteProjet}">
+                        <option th:each="site : ${sites}" th:value="${site.id}" th:text="${site.nom}">Nom du site
+                        </option>
+                    </select>
+                    <p th:if="${#fields.hasErrors('siteProjet')}" th:errors="*{siteProjet}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <button type="submit">Créer</button>
+                    <button type="reset">Réinitialiser</button>
+                    <a th:href="@{/projets}">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

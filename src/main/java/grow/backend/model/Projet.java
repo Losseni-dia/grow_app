@@ -1,6 +1,10 @@
 package grow.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -19,19 +23,29 @@ public class Projet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Le nom du projet ne peut être vide.")
+    @Size(min = 2, max = 60, message = "La taille du nom du projet doit être compris entre 2 et 60 caractères .")
     private String libelle;
 
+    @NotBlank(message = "La description du projet ne peut être vide.")
+    @Size(min = 2, max = 60, message = "La description du projet doit être comprise entre 2 et 60 caractères .")
     private String description;
 
+    @DecimalMin(value = "0.0", inclusive = false, message = "La valuation doit être un nombre positif")
     private double valuation;
 
+    @NotBlank(message = "Le secteur du projet ne peut être vide.")
     private String secteur;
 
+    
+    @DecimalMin(value = "0.0", inclusive = true, message = "Le ROI projeté doit être positif ou nul")
+    @DecimalMax(value = "100.0", message = "Le ROI projeté ne peut pas dépasser 100%")
     private double roiProjete;
 
     @Enumerated(EnumType.STRING)
     private StatutProjet statutProjet;
-
+    
+    @NotBlank(message = "Le nom du projet ne peut être vide.")
     @Column(name = "business_plan")
     private String businessPlan;
 

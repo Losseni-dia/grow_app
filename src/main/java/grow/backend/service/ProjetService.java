@@ -73,13 +73,9 @@ public class ProjetService {
     public void add(Projet projet) {
         projetRepository.save(projet);
     }
-
-    public void updateProjet(Projet projet) {
-        if (projetRepository.existsById(projet.getId())) {
-            projetRepository.save(projet);
-        } else {
-            throw new ProjetNotFoundException(projet.getId());
-        }
+    
+    public void update(Long id, Projet projet) {
+        projetRepository.save(projet);
     }
 
     public void deleteById(Long id) {

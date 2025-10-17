@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Modification d'un projet</title>
+</head>
+
+<body>
+    <div class="container">
+        <div layout:fragment="content">
+            <h1 th:text="|Modifier le projet : ${projet.libelle}|">Projet à modifier</h1>
+
+            <!--
+                Formulaire de modification d'un projet.
+                Il envoie les données mises à jour vers l'URL "/projets/{id}/edit" via la méthode PUT.
+                Le formulaire est lié à l'objet 'projet' transmis au modèle Spring.
+                Les champs sont remplis avec les valeurs actuelles du projet.
+                Les boutons permettent de modifier, réinitialiser, ou annuler la modification.
+                Les champs sont controlés également 
+            -->
+
+
+            <form th:action="@{/projets/{id}/edit(id=${projet.id})}" th:object="${projet}" method="post">
+                <input type="hidden" name="_method" value="put" />
+
+                <div>
+                    <label>Libellé :</label>
+                    <input type="text" th:field="*{libelle}" maxlength="60" required>
+                    <p th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>Secteur :</label>
+                    <input type="text" th:field="*{secteur}" maxlength="60" required>
+                    <p th:if="${#fields.hasErrors('secteur')}" th:errors="*{secteur}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>Valuation :</label>
+                    <input type="number" th:field="*{valuation}" step="0.01" min="0" required>
+                    <p th:if="${#fields.hasErrors('valuation')}" th:errors="*{valuation}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>ROI Projeté (%) :</label>
+                    <input type="number" th:field="*{roiProjete}" step="0.01" min="0" max="100" required>
+                    <p th:if="${#fields.hasErrors('roiProjete')}" th:errors="*{roiProjete}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>Statut :</label>
+                    <input type="text" th:field="*{statutProjet}" maxlength="50" required>
+                    <p th:if="${#fields.hasErrors('statutProjet')}" th:errors="*{statutProjet}" class="fieldError"></p>
+                </div>
+
+                <div>
+                    <label>Site Projet :</label>
+                    <input type="text" th:field="*{siteProjet.nom}" maxlength="100">
+                    <p th:if="${#fields.hasErrors('siteProjet.nom')}" th:errors="*{siteProjet.nom}" class="fieldError">
+                    </p>
+                </div>
+
+                <div>
+                    <button type="submit">Modifier</button>
+                    <button type="reset">Réinitialiser</button>
+                    <a th:href="@{/projets}">Annuler</a>
+                </div>
+            </form>
+
+            <nav><a th:href="@{/projets}">Retour à la liste des projets</a></nav>
+        </div>
+    </div>
+</body>
+
+</html>

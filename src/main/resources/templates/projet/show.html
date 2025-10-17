@@ -17,12 +17,16 @@
             <p><strong>Business Plan:</strong> <span th:text="${projet.businessPlan}"></span></p>
             <p><strong>Porteur Projet:</strong> <span
                 th:text="${projet.porteurProjet != null ? projet.porteurProjet.prenom + ' ' + projet.porteurProjet.nom : 'N/A'}"></span>
-            </p>
-        <p><strong>Site Projet:</strong> <span th:text="${projet.siteProjet?.nom ?: 'N/A'}"></span></p>
-        <p><strong>Localité :</strong> <span th:text="${projet.siteProjet?.localite?.nom ?:'N/A'}"></span></p>
-        <p><strong>Pays:</strong> <span th:text="${projet.siteProjet?.localite?.pays?.nom ?: 'N/A'}"></span></p>
+                </p>
+            <p><strong>Site Projet:</strong> <span th:text="${projet.siteProjet?.nom ?: 'N/A'}"></span></p>
+            <p><strong>Localité :</strong> <span th:text="${projet.siteProjet?.localite?.nom ?:'N/A'}"></span></p>
+            <p><strong>Pays:</strong> <span th:text="${projet.siteProjet?.localite?.pays?.nom ?: 'N/A'}"></span></p>
 
-            </p>
+            <div class="actions">
+                <a th:href="@{/projets/{id}/edit(id=${projet.id})}">Modifier</a> 
+            </div>
+
+            
             <nav><a th:href="@{/projets}">Retour à la liste des projets</a></nav>
         </div>
     </div>
