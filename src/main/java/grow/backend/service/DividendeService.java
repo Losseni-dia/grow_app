@@ -1,6 +1,7 @@
 package grow.backend.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,8 @@ public class DividendeService {
         }
     }
 
-    public List<Dividende> getAllByPart(Long partId) {
-        List<Dividende> dividendes = dividendeRepository.findByPartId(partId);
+    public Optional<Dividende> getAllByPart(Long partId) {
+        Optional<Dividende> dividendes = dividendeRepository.findByPartId(partId);
         if (dividendes.isEmpty()) {
             throw new DividendeNotFoundException(partId); // ou exception spécifique si id est partId
         }

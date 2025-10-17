@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Liste des projets</title>
+</head>
+
+<body>
+    <div class="container" layout:fragment="content">
+        <h1 th:text="${title}">Liste des projets</h1>
+
+        <table th:unless="${#lists.isEmpty(projets)}" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Libellé</th>
+                    <th>Secteur</th>
+                    <th>Valuation</th>
+                    <th>ROI Projeté</th>
+                    <th>Statut</th>
+                    <th>Site Projet</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="projet : ${projets}">
+                    <td><a th:href="@{/projets/{id}(id=${projet.id})}" th:text="${projet.libelle}">Titre</a></td>
+                    <td th:text="${projet.secteur}">Secteur</td>
+                    <td th:text="${projet.valuation} + ' francs CFA'">100000</td>
+                    <td th:text="${projet.roiProjete + '%'}">12.5</td>
+                    <td th:text="${projet.statutProjet}">EN_COURS</td>
+                    <td th:text="${projet.siteProjet != null ? projet.siteProjet.nom : 'N/A'}">Site de Samango</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${#lists.isEmpty(projets)}">
+            <p>Aucun projet trouvé.</p>
+        </div>
+    </div>
+</body>
+
+</html>

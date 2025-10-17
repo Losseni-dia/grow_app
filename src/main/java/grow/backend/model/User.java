@@ -20,8 +20,8 @@ public class User {
 
     private String login;
     private String password;
-    private String firstname;
-    private String lastname;
+    private String prenom;
+    private String nom;
     private String email;
     private String langue;
     private String pays;

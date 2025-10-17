@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Fiche d’un projet</title>
+</head>
+
+<body>
+    <div class="container">
+        <div layout:fragment="content">
+            <h1 th:text="${projet.libelle}">Titre</h1>
+            <p><strong>Description:</strong> <span th:text="${projet.description}"></span></p>
+            <p><strong>Secteur:</strong> <span th:text="${projet.secteur}"></span></p>
+            <p><strong>Valuation:</strong> <span th:text="${projet.valuation} + ' francs CFA'"></span></p>
+            <p><strong>ROI Projeté:</strong> <span th:text="${projet.roiProjete} + ' %'"></span></p>
+            <p><strong>Statut:</strong> <span th:text="${projet.statutProjet}"></span></p>
+            <p><strong>Business Plan:</strong> <span th:text="${projet.businessPlan}"></span></p>
+            <p><strong>Porteur Projet:</strong> <span
+                th:text="${projet.porteurProjet != null ? projet.porteurProjet.prenom + ' ' + projet.porteurProjet.nom : 'N/A'}"></span>
+            </p>
+        <p><strong>Site Projet:</strong> <span th:text="${projet.siteProjet?.nom ?: 'N/A'}"></span></p>
+        <p><strong>Localité :</strong> <span th:text="${projet.siteProjet?.localite?.nom ?:'N/A'}"></span></p>
+        <p><strong>Pays:</strong> <span th:text="${projet.siteProjet?.localite?.pays?.nom ?: 'N/A'}"></span></p>
+
+            </p>
+            <nav><a th:href="@{/projets}">Retour à la liste des projets</a></nav>
+        </div>
+    </div>
+</body>
+
+</html>

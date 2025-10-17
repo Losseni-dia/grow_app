@@ -2,6 +2,7 @@ package grow.backend.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,8 @@ public class SiteService {
                 .orElseThrow(() -> new SiteProjetNotFoundException(id));
     }
 
-    public List<SiteProjet> findByLocaliteId(Long localiteId) {
-        List<SiteProjet> sites = siteRepository.findByLocaliteId(localiteId);
+    public Optional<SiteProjet> findByLocaliteId(Long localiteId) {
+        Optional<SiteProjet> sites = siteRepository.findByLocaliteId(localiteId);
         if (sites.isEmpty()) {
             throw new SiteProjetNotFoundException(localiteId);
         }

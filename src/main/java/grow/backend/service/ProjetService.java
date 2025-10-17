@@ -16,7 +16,7 @@ public class ProjetService {
     @Autowired
     private ProjetRepository projetRepository;
 
-    public List<Projet> findAll() {
+    public List<Projet> getAll() {
         List<Projet> result = new ArrayList<>();
         projetRepository.findAll().forEach(result::add);
         if (result.isEmpty()) {
@@ -25,7 +25,7 @@ public class ProjetService {
         return result;
     }
 
-    public Projet findById(Long id) {
+    public Projet get(long id) {
         return projetRepository.findById(id)
                 .orElseThrow(() -> new ProjetNotFoundException(id));
     }

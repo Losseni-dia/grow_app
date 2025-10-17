@@ -33,7 +33,7 @@ public class Projet {
     private StatutProjet statutProjet;
 
     @Column(name = "business_plan")
-    private int businessPlan;
+    private String businessPlan;
 
     @ManyToOne
     @JoinColumn(name = "porteur_projet_id")

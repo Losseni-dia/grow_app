@@ -3,6 +3,7 @@ package grow.backend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 import grow.backend.model.Localite;
 import grow.backend.repository.LocaliteRepository;
@@ -23,7 +24,7 @@ public class LocaliteService {
         localiteRepository.findById(id);
     }
 
-    public List<Localite> findByPaysId(Long paysId) {
+    public Optional<Localite> findByPaysId(Long paysId) {
         return localiteRepository.findByPaysId(paysId);
     }
 

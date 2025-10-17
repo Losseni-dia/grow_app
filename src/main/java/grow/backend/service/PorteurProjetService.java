@@ -17,12 +17,12 @@ public class PorteurProjetService {
     private PorteurProjetRepository porteurProjetRepository;
 
     public List<PorteurProjet> getAll() {
-        List<PorteurProjet> result = new ArrayList<>();
-        porteurProjetRepository.findAll().forEach(result::add);
-        if (result.isEmpty()) {
+        List<PorteurProjet> porteurProjets = new ArrayList<>();
+        porteurProjetRepository.findAll().forEach(porteurProjets::add);
+        if (porteurProjets.isEmpty()) {
             throw new PorteurProjetNotFoundException(-1L);
         }
-        return result;
+        return porteurProjets;
     }
 
     public PorteurProjet get(Long id) {

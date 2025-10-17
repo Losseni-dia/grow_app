@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
             ProjetNotFoundException.class,
             SiteProjetNotFoundException.class,
             UserNotFoundException.class,
-            CampagneNotFoundException.class }) // <- Ajout ici
+            CampagneNotFoundException.class }) 
     public ResponseEntity<ErrorResponse> handleNotFoundExceptions(RuntimeException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CampagneService {
@@ -29,8 +30,8 @@ public class CampagneService {
     }
 
     // Read (Get by Projet Id)
-    public List<Campagne> getByProjetId(Long projetId) {
-        List<Campagne> campagnes = campagneRepository.findByProjetId(projetId);
+    public Optional<Campagne> getByProjetId(Long projetId) {
+        Optional<Campagne> campagnes = campagneRepository.findByProjetId(projetId);
         if (campagnes.isEmpty()) {
             throw new CampagneNotFoundException(-1L); // Pas de campagne pour ce projet
         }

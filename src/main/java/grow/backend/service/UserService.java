@@ -2,6 +2,7 @@ package grow.backend.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,15 @@ public class UserService {
     public User getUser(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    public List<User> getUser(String nom) {
+        List<User> users = new ArrayList<>();
+        userRepository.findAll().forEach(users::add);
+        if (users.isEmpty()) {
+            throw new UserNotFoundException(-1L);
+        }
+        return users;
     }
 
     public void addUser(User user) {

@@ -10,7 +10,7 @@ import grow.backend.model.Investisseur;
 public interface InvestisseurRepository extends CrudRepository<Investisseur, Long> {
     List<Investisseur> findByDiasporaTrue();
     
-    List<Investisseur> findByLastname(String lastname);
+    List<Investisseur> findByNom(String nom);
 
 
     Optional<Investisseur> findById(Long id);

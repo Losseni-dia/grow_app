@@ -5,9 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import grow.backend.model.SiteProjet;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SiteProjetRepository extends CrudRepository<SiteProjet, Long> {
-    List<SiteProjet> findByLocaliteId(Long LocaliteId);
+    Optional<SiteProjet> findByLocaliteId(Long LocaliteId);
 }
