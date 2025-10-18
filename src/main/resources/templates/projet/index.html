@@ -6,7 +6,9 @@
 </head>
 
 <body>
-    <div class="container" layout:fragment="content">
+    <div class="container">
+        <div id="notification" th:replace="~{main :: notification}"></div>
+        <div layout:fragment="content">    
         <h1 th:text="${title}">Liste des projets</h1>
         <div class="actions">
             <a th:href="@{/projets/create}">Ajouter un nouveau projet</a>
@@ -42,6 +44,15 @@
                       Ce lien dirige vers un formulaire permettant de modifier les informations de le projet.
                     -->
                     <td><a th:href="@{/projets/{id}/edit(id=${projet.id})}">Modifier</a></td>
+                        <td>
+                            <form th:id="|deleteForm-${projet.id}|" th:action="@{/projets/{id}(id=${projet.id})}" th:method="delete">
+                                <a href="#" th:onclick="|if(confirm('Confirmation de suppression projet #${projet.id}')) 
+                        	            document.getElementById('deleteForm-${projet.id}').submit(); 
+                        	            return false;|">Delete</a>
+                            </form>
+                        </td>
+
+
 
                 </tr>
             </tbody>

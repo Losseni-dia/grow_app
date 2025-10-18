@@ -18,6 +18,10 @@ public class Campagne {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long reference;
+
+    private String libelle;
+    
     private double objectifFinancement;
 
     private LocalDateTime dateDebut;

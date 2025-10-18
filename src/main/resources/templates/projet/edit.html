@@ -7,58 +7,73 @@
 
 <body>
     <div class="container">
+        <div id="notification" th:replace="~{main :: notification}"></div>
         <div layout:fragment="content">
             <h1 th:text="|Modifier le projet : ${projet.libelle}|">Projet à modifier</h1>
 
-            <!--
-                Formulaire de modification d'un projet.
-                Il envoie les données mises à jour vers l'URL "/projets/{id}/edit" via la méthode PUT.
-                Le formulaire est lié à l'objet 'projet' transmis au modèle Spring.
-                Les champs sont remplis avec les valeurs actuelles du projet.
-                Les boutons permettent de modifier, réinitialiser, ou annuler la modification.
-                Les champs sont controlés également 
-            -->
-
-
             <form th:action="@{/projets/{id}/edit(id=${projet.id})}" th:object="${projet}" method="post">
-                <input type="hidden" name="_method" value="put" />
+                <input type="hidden" name="_method" value="PUT" />
+
+                <!-- Supprimé le champ CSRF pour éviter TemplateInputException -->
 
                 <div>
-                    <label>Libellé :</label>
-                    <input type="text" th:field="*{libelle}" maxlength="60" required>
+                    <label for="libelle">Libellé :</label>
+                    <input id="libelle" type="text" th:field="*{libelle}" maxlength="60" required>
                     <p th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}" class="fieldError"></p>
                 </div>
 
                 <div>
-                    <label>Secteur :</label>
-                    <input type="text" th:field="*{secteur}" maxlength="60" required>
+                    <label for="secteur">Secteur :</label>
+                    <input id="secteur" type="text" th:field="*{secteur}" maxlength="60" required>
                     <p th:if="${#fields.hasErrors('secteur')}" th:errors="*{secteur}" class="fieldError"></p>
                 </div>
 
                 <div>
-                    <label>Valuation :</label>
-                    <input type="number" th:field="*{valuation}" step="0.01" min="0" required>
+                    <label for="valuation">Valuation :</label>
+                    <input id="valuation" type="number" th:field="*{valuation}" step="0.01" min="0" required>
                     <p th:if="${#fields.hasErrors('valuation')}" th:errors="*{valuation}" class="fieldError"></p>
                 </div>
 
                 <div>
-                    <label>ROI Projeté (%) :</label>
-                    <input type="number" th:field="*{roiProjete}" step="0.01" min="0" max="100" required>
+                    <label for="roiProjete">ROI Projeté (%) :</label>
+                    <input id="roiProjete" type="number" th:field="*{roiProjete}" step="0.01" min="0" max="100"
+                        required>
                     <p th:if="${#fields.hasErrors('roiProjete')}" th:errors="*{roiProjete}" class="fieldError"></p>
                 </div>
 
                 <div>
-                    <label>Statut :</label>
-                    <input type="text" th:field="*{statutProjet}" maxlength="50" required>
+                    <label for="statutProjet">Statut :</label>
+                    <input id="statutProjet" type="text" th:field="*{statutProjet}" maxlength="50" required>
                     <p th:if="${#fields.hasErrors('statutProjet')}" th:errors="*{statutProjet}" class="fieldError"></p>
                 </div>
 
                 <div>
-                    <label>Site Projet :</label>
-                    <input type="text" th:field="*{siteProjet.nom}" maxlength="100">
-                    <p th:if="${#fields.hasErrors('siteProjet.nom')}" th:errors="*{siteProjet.nom}" class="fieldError">
-                    </p>
+                    <label for="porteurProjet">Porteur du projet :</label>
+                    <select id="porteurProjet" th:field="*{porteurProjet.id}" required>
+                        <option value="" disabled>-- Changer le porteur --</option>
+                        <option th:each="personne : ${personnes}" th:value="${personne.id}"
+                            th:text="${personne.prenom + ' ' + personne.nom}">
+                        </option>
+                    </select>
                 </div>
+
+                <div>
+                    <label for="siteProjet">Site Projet :</label>
+                    <select id="siteProjet" th:field="*{siteProjet.id}">
+                        <option value="" disabled>-- Changer le site --</option>
+                        <option th:each="site : ${sites}" th:value="${site.id}" th:text="${site.nom}"></option>
+                    </select>
+                </div>
+                <div>
+                <div th:each="campagne : ${projet.campagnes}">
+                    <a th:href="@{/campagnes/{id}(id=${campagne.id})}">
+                        <p th:text="${campagne.libelle}">Libelle</p>
+                        <!-- autres champs -->
+                    </a>
+                </div>
+
+                </div>
+
 
                 <div>
                     <button type="submit">Modifier</button>

@@ -12,6 +12,7 @@
 
 <body>
     <div class="container">
+        <div id="notification" th:replace="~{main :: notification}"></div>
         <div layout:fragment="content">
             <h1>Création d'un nouveau projet</h1>
 
@@ -61,26 +62,25 @@
                 <div>
                     <label>Porteur de projet :</label>
                     <select th:field="*{porteurProjet}" required>
+                        <option value="" disabled selected>-- Choisissez un porteur --</option>
                         <option th:each="personne : ${personnes}" th:value="${personne.id}"
-                            th:text="${personne.prenom + ' ' + personne.nom}">Nom Prenom</option>
+                            th:text="${personne.prenom + ' ' + personne.nom}"></option>
                     </select>
-                    <p th:if="${#fields.hasErrors('porteurProjet')}" th:errors="*{porteurProjet}" class="fieldError">
-                    </p>
+                    <p th:if="${#fields.hasErrors('porteurProjet')}" th:errors="*{porteurProjet}" class="fieldError"></p>
                 </div>
-
+                
                 <div>
                     <label>Site du projet :</label>
-                    <select th:field="*{siteProjet}">
-                        <option th:each="site : ${sites}" th:value="${site.id}" th:text="${site.nom}">Nom du site
-                        </option>
-                    </select>
+                        <select th:field="*{siteProjet}">
+                            <option value="" disabled selected>-- Choisissez un site --</option>
+                            <option th:each="site : ${sites}" th:value="${site.id}" th:text="${site.nom}"></option>
+                        </select>
                     <p th:if="${#fields.hasErrors('siteProjet')}" th:errors="*{siteProjet}" class="fieldError"></p>
                 </div>
-
                 <div>
-                    <button type="submit">Créer</button>
-                    <button type="reset">Réinitialiser</button>
-                    <a th:href="@{/projets}">Annuler</a>
+                        <button type="submit">Créer</button>
+                        <button type="reset">Réinitialiser</button>
+                        <a th:href="@{/projets}">Annuler</a>
                 </div>
             </form>
         </div>

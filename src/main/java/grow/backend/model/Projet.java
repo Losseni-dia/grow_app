@@ -49,15 +49,15 @@ public class Projet {
     @Column(name = "business_plan")
     private String businessPlan;
 
-    @ManyToOne
-    @JoinColumn(name = "porteur_projet_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "porteur_projet_id" )
     private PorteurProjet porteurProjet;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "site_id")
     private SiteProjet siteProjet;
 
-    @OneToMany(mappedBy = "projet", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "projet",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Campagne> campagnes = new ArrayList<>();
 
 

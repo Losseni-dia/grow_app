@@ -7,6 +7,7 @@
 
 <body>
     <div class="container">
+        <div id="notification" th:replace="~{main :: notification}"></div>
         <div layout:fragment="content">
             <h1 th:text="${projet.libelle}">Titre</h1>
             <p><strong>Description:</strong> <span th:text="${projet.description}"></span></p>
@@ -24,6 +25,12 @@
 
             <div class="actions">
                 <a th:href="@{/projets/{id}/edit(id=${projet.id})}">Modifier</a> 
+                <form th:id="|deleteForm-${projet.id}|"
+                      th:action="@{/projets/{id}(id=${projet.id})}" th:method="delete">
+                      <a href="#" th:onclick="|if(confirm('Confirmation de suppression projet #${projet.id}')) 
+                            document.getElementById('deleteForm-${projet.id}').submit(); 
+                            return false;|">Delete</a>
+                </form>
             </div>
 
             
