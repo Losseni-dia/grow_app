@@ -1,7 +1,9 @@
 package grow.backend.service;
 
 import grow.backend.exception.handler.CampagneNotFoundException;
+import grow.backend.exception.handler.DividendeNotFoundException;
 import grow.backend.model.Campagne;
+import grow.backend.model.Dividende;
 import grow.backend.model.Investissement;
 import grow.backend.repository.CampagneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,24 +26,35 @@ public class CampagneService {
     }
 
     // Read (Get by Id)
-    public Campagne getById(Long id) {
+    public Campagne get(String id) {
         return campagneRepository.findById(id)
                 .orElseThrow(() -> new CampagneNotFoundException(id));
     }
 
+      public List<Campagne> getAll() {
+         List<Campagne> result = new ArrayList<>();
+         campagneRepository.findAll().forEach(result::add);
+        
+         if (result.isEmpty()) {
+             throw new CampagneNotFoundException(null);
+         }
+         
+        return result;
+    }
+
     // Read (Get by Projet Id)
-    public Optional<Campagne> getByProjetId(Long projetId) {
+    public Optional<Campagne> getByProjetId(String projetId) {
         Optional<Campagne> campagnes = campagneRepository.findByProjetId(projetId);
         if (campagnes.isEmpty()) {
-            throw new CampagneNotFoundException(-1L); // Pas de campagne pour ce projet
+            throw new CampagneNotFoundException(projetId); // Pas de campagne pour ce projet
         }
         return campagnes;
     }
 
     // Update
-    public Campagne update(Campagne campagne) {
+    public Campagne update(String id, Campagne campagne) {
         if (!campagneRepository.existsById(campagne.getId())) {
-            throw new CampagneNotFoundException(campagne.getId());
+            throw new CampagneNotFoundException(id);
         }
         // Optionnel : vérifier cohérence des dates (ex début < fin)
         if (campagne.getDateDebut() != null && campagne.getDateFin() != null &&
@@ -52,11 +65,12 @@ public class CampagneService {
     }
 
     // Delete
-    public void delete(Long id) {
-        if (!campagneRepository.existsById(id)) {
+    public void delete(String id) {
+        Long indice = (long) Integer.parseInt(id);
+        if (!campagneRepository.existsById(indice)) {
             throw new CampagneNotFoundException(id);
         }
-        campagneRepository.deleteById(id);
+        campagneRepository.deleteById(indice);
     }
 
     // Méthodes intelligentes additionnelles :
@@ -73,8 +87,8 @@ public class CampagneService {
     }    
 
     // Calculer la part disponible après les investissements
-   public int calculerPartsDisponibles(Long campagneId) {
-    Campagne campagne = getById(campagneId);
+   public int calculerPartsDisponibles(String campagneId) {
+    Campagne campagne = get(campagneId);
     int totalPartsInvesties = campagne.getInvestissements().stream()
         .mapToInt(i -> i.getPart().getNombreParts())
         .sum();
@@ -83,8 +97,8 @@ public class CampagneService {
 
 
     // Vérifier si un pourcentage de parts est disponible pour nouvelle souscription
-    public boolean verifierDisponibiliteParts(Long campagneId, double pourcentSouhaite) {
-        Campagne campagne = getById(campagneId);
+    public boolean verifierDisponibiliteParts(String campagneId, double pourcentSouhaite) {
+        Campagne campagne = get(campagneId);
         double pourcentDisponible = campagne.getPourcentParts() -
                 campagne.getInvestissements().stream()
                         .mapToDouble(i -> (i.getPart().getNombreParts() * 100.0) / campagne.getPartsDisponible())
@@ -93,8 +107,8 @@ public class CampagneService {
     }
 
     // Ajouter un investissement à une campagne (gestion des liaisons)
-    public void ajouterInvestissement(Long campagneId, Investissement investissement) {
-        Campagne campagne = getById(campagneId);
+    public void ajouterInvestissement(String campagneId, Investissement investissement) {
+        Campagne campagne = get(campagneId);
         investissement.setCampagne(campagne);
         campagne.getInvestissements().add(investissement);
         campagneRepository.save(campagne);

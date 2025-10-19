@@ -1,7 +1,6 @@
 package grow.backend.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,5 +12,5 @@ public interface InvestisseurRepository extends CrudRepository<Investisseur, Lon
     List<Investisseur> findByNom(String nom);
 
 
-    Optional<Investisseur> findById(Long id);
+    Investisseur findById(String id);
 }

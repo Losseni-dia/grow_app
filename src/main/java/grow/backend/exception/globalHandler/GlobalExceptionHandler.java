@@ -10,9 +10,12 @@ import grow.backend.exception.errorResponse.ErrorResponse;
 import grow.backend.exception.handler.DividendeNotFoundException;
 import grow.backend.exception.handler.InvestissementNotFoundException;
 import grow.backend.exception.handler.InvestisseurNotFoundException;
+import grow.backend.exception.handler.PaysNotFoundException;
 import grow.backend.exception.handler.PorteurProjetNotFoundException;
 import grow.backend.exception.handler.ProjetNotFoundException;
+import grow.backend.exception.handler.RoleNotFoundException;
 import grow.backend.exception.handler.SiteProjetNotFoundException;
+import grow.backend.exception.handler.TypeNotFoundException;
 import grow.backend.exception.handler.UserNotFoundException;
 import grow.backend.exception.handler.CampagneNotFoundException; // <- Ajout ici
 
@@ -26,7 +29,11 @@ public class GlobalExceptionHandler {
             ProjetNotFoundException.class,
             SiteProjetNotFoundException.class,
             UserNotFoundException.class,
-            CampagneNotFoundException.class }) 
+            CampagneNotFoundException.class,
+            TypeNotFoundException.class,
+            RoleNotFoundException.class,
+            PaysNotFoundException.class,
+            InvestisseurNotFoundException.class}) 
     public ResponseEntity<ErrorResponse> handleNotFoundExceptions(RuntimeException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);

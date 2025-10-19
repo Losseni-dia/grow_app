@@ -21,17 +21,17 @@ public class SiteService {
         List<SiteProjet> result = new ArrayList<>();
         siteRepository.findAll().forEach(result::add);
         if (result.isEmpty()) {
-            throw new SiteProjetNotFoundException(-1L);
+            throw new SiteProjetNotFoundException(null);
         }
         return result;
     }
 
-    public SiteProjet get(Long id) {
+    public SiteProjet get(String id) {
         return siteRepository.findById(id)
                 .orElseThrow(() -> new SiteProjetNotFoundException(id));
     }
 
-    public Optional<SiteProjet> findByLocaliteId(Long localiteId) {
+    public Optional<SiteProjet> findByLocaliteId(String localiteId) {
         Optional<SiteProjet> sites = siteRepository.findByLocaliteId(localiteId);
         if (sites.isEmpty()) {
             throw new SiteProjetNotFoundException(localiteId);
@@ -47,13 +47,14 @@ public class SiteService {
         if (siteRepository.existsById(site.getId())) {
             siteRepository.save(site);
         } else {
-            throw new SiteProjetNotFoundException(site.getId());
+            throw new SiteProjetNotFoundException(null);
         }
     }
 
-    public void deleteById(Long id) {
-        if (siteRepository.existsById(id)) {
-            siteRepository.deleteById(id);
+    public void deleteById(String id) {
+        Long indice = (long) Integer.parseInt(id);
+        if (siteRepository.existsById(indice)) {
+            siteRepository.deleteById(indice);
         } else {
             throw new SiteProjetNotFoundException(id);
         }

@@ -7,9 +7,16 @@ import grow.backend.model.Localite;
 
 import java.util.Optional;
 
+
+
 @Repository
 public interface LocaliteRepository extends CrudRepository<Localite, Long> {
-    Optional<Localite> findByPaysId(Long paysId);
+    Optional<Localite> findByPays(String pays);
+
+    Localite findById(String id);
     
+    Localite findByPostalCode(String postalCode);
+
+    Localite findByLocality(String localite);
 
 }

@@ -10,6 +10,6 @@ import grow.backend.model.Pays;
 
 @Repository
 public interface PaysRepository extends CrudRepository<Pays, Long> {
-    
+    Optional<Pays> findById(String id);
     Optional<Pays> findByNom(String nom);
 }

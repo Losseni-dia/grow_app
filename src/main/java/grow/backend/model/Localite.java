@@ -15,6 +15,8 @@ public class Localite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String codePostal;
+
     private String nom;
 
     @ManyToOne

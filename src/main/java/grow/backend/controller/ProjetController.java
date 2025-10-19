@@ -36,7 +36,7 @@ public class ProjetController {
     }
 
     @GetMapping("/projets/{id}")
-    public String show(@PathVariable Long id, Model model) {
+    public String show(@PathVariable String id, Model model) {
         if (id == null) {
             // Gérer cas id manquant, par ex. redirection ou message d'erreur
             return "redirect:/projets";
@@ -74,7 +74,7 @@ public class ProjetController {
     }
 
     @GetMapping("/projets/{id}/edit")
-    public String edit(Model model, @PathVariable Long id, HttpServletRequest request) {
+    public String edit(Model model, @PathVariable String id, HttpServletRequest request) {
         Projet projet = service.get(id);
         model.addAttribute("projet", projet);
         model.addAttribute("personnes", service.getAllPorteurProjets());
@@ -93,7 +93,7 @@ public class ProjetController {
     }
 
     @PutMapping("/projets/{id}/edit")
-    public String update(@Valid @ModelAttribute Projet projet, BindingResult bindingResult, @PathVariable Long id,
+    public String update(@Valid @ModelAttribute Projet projet, BindingResult bindingResult, @PathVariable String id,
                          Model model, RedirectAttributes redirAttrs) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("personnes", service.getAllPorteurProjets());
@@ -114,7 +114,7 @@ public class ProjetController {
     }
     
     @DeleteMapping("/projets/{id}")
-	public String delete(@PathVariable long id, Model model, RedirectAttributes redirAttrs) {
+	public String delete(@PathVariable String id, Model model, RedirectAttributes redirAttrs) {
 	    Projet existing = service.get(id);
 		
 	    if(existing!=null) {		

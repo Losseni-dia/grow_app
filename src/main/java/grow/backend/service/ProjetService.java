@@ -38,17 +38,17 @@ public class ProjetService {
         List<Projet> result = new ArrayList<>();
         projetRepository.findAll().forEach(result::add);
         if (result.isEmpty()) {
-            throw new ProjetNotFoundException(-1L);
+            throw new ProjetNotFoundException(null);
         }
         return result;
     }
 
-    public Projet get(long id) {
+    public Projet get(String id) {
         return projetRepository.findById(id)
                 .orElseThrow(() -> new ProjetNotFoundException(id));
     }
 
-    public List<Projet> findByPorteurProjetId(Long porteurId) {
+    public List<Projet> findByPorteurProjetId(String porteurId) {
         List<Projet> projets = projetRepository.findByPorteurProjetId(porteurId);
         if (projets.isEmpty()) {
             throw new ProjetNotFoundException(porteurId);
@@ -59,7 +59,7 @@ public class ProjetService {
     public List<Projet> findByLibelleContainingIgnoreCase(String libelle) {
         List<Projet> projets = projetRepository.findByLibelleContainingIgnoreCase(libelle);
         if (projets.isEmpty()) {
-            throw new ProjetNotFoundException(-1L);
+            throw new ProjetNotFoundException(null);
         }
         return projets;
     }
@@ -67,7 +67,7 @@ public class ProjetService {
     public List<Projet> findBySecteurIgnoreCase(String secteur) {
         List<Projet> projets = projetRepository.findBySecteurIgnoreCase(secteur);
         if (projets.isEmpty()) {
-            throw new ProjetNotFoundException(-1L);
+            throw new ProjetNotFoundException(null);
         }
         return projets;
     }
@@ -75,7 +75,7 @@ public class ProjetService {
     public List<Projet> findBySiteProjetLocalitePaysNomIgnoreCase(String nomPays) {
         List<Projet> projets = projetRepository.findBySiteProjetLocalitePaysNom(nomPays);
         if (projets.isEmpty()) {
-            throw new ProjetNotFoundException(-1L);
+            throw new ProjetNotFoundException(null);
         }
         return projets;
     }
@@ -83,7 +83,7 @@ public class ProjetService {
     public List<Projet> findBySiteProjetLocaliteNomIgnoreCase(String nomLocalite) {
         List<Projet> projets = projetRepository.findBySiteProjetLocaliteNomIgnoreCase(nomLocalite);
         if (projets.isEmpty()) {
-            throw new ProjetNotFoundException(-1L);
+            throw new ProjetNotFoundException(null);
         }
         return projets;
     }
@@ -93,9 +93,9 @@ public class ProjetService {
     }
         
     @Transactional
-    public void update(Long id, Projet projetModifie) {
+    public void update(String id, Projet projetModifie) {
         Projet projetExistant = projetRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Projet non trouvé avec id " + id));
+                .orElseThrow(() -> new ProjetNotFoundException("Projet non trouvé avec id " + id));
     
         projetExistant.setLibelle(projetModifie.getLibelle());
         projetExistant.setSecteur(projetModifie.getSecteur());
@@ -108,9 +108,10 @@ public class ProjetService {
         projetRepository.save(projetExistant);
     }
 
-    public void delete(Long id) {
-        if (projetRepository.existsById(id)) {
-            projetRepository.deleteById(id);
+    public void delete(String id) {
+        Long indice = (long) Integer.parseInt(id);
+        if (projetRepository.existsById(indice)) {
+            projetRepository.deleteById(indice);
         } else {
             throw new ProjetNotFoundException(id);
         }
@@ -120,7 +121,7 @@ public class ProjetService {
         List<PorteurProjet> result = new ArrayList<>();
         porteurProjetRepository.findAll().forEach(result::add);
         if (result.isEmpty()) {
-            throw new ProjetNotFoundException(-1L);
+            throw new ProjetNotFoundException(null);
         }
         return result;
     }
@@ -129,7 +130,7 @@ public class ProjetService {
         List<SiteProjet> result = new ArrayList<>();
         siteProjetRepository.findAll().forEach(result::add);
         if (result.isEmpty()) {
-            throw new ProjetNotFoundException(-1L);
+            throw new ProjetNotFoundException(null);
         }
         return result;
     }
@@ -138,7 +139,7 @@ public class ProjetService {
         List<Campagne> result = new ArrayList<>();
         campagneRepository.findAll().forEach(result::add);
         if (result.isEmpty()) {
-            throw new ProjetNotFoundException(-1L);
+            throw new ProjetNotFoundException(null);
         }
         return result;
     }

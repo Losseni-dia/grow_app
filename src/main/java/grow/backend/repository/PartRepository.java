@@ -9,7 +9,8 @@ import grow.backend.model.Part;
 import grow.backend.model.StatutPart;
 
 public interface PartRepository extends CrudRepository<Part, Long> {
-    Optional<Part> findByInvestissementId(Long investissementId);
+    Optional<Part> findById(String id);
+    Optional<Part> findByInvestissementId(String investissementId);
 
     List<Part> findByStatutPart(StatutPart statutPart);
 }

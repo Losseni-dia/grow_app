@@ -9,7 +9,8 @@ import grow.backend.model.Dividende;
 import grow.backend.model.StatutDividende;
 
 public interface DividendeRepository extends CrudRepository<Dividende, Long> {
-    Optional<Dividende> findByPartId(Long partId);
+    Optional<Dividende> findById(String id);
+    Optional<Dividende> findByPartId(String partId);
     
 
     List<Dividende> findByStatutDividende(StatutDividende statutDividende);

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout" layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Fiche d'une localité</title>
+</head>
+
+<body>
+    <div class="container">
+        <div layout:fragment="content">
+            <h1 th:text="${localite.codePostal} +' '+ ${localite.nom}">3400 Odienné</h1>
+            <h1 th:text="|${localite.codePostal}  ${localite.nom}|">3400 Odienné</h1>
+
+            <ul th:unless="${#lists.isEmpty(localite.sites)}">
+                <li th:each="site : ${localite.sites}" th:text="${sites.nom}">Agropôle Samango</li>
+            </ul>
+
+            <p th:if="${#lists.isEmpty(localite.sites)}">Aucun site disponible pour ce projet.</p>
+
+            <nav><a th:href="@{/localites}">Retour à l'index</a></nav>
+        </div>
+    </div>
+</body>
+
+</html>

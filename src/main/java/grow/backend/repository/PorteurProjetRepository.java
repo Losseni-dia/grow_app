@@ -14,7 +14,7 @@ import grow.backend.model.Projet;
 @Repository
 public interface PorteurProjetRepository extends CrudRepository<PorteurProjet, Long> {
     // Ici tu peux ajouter des méthodes spécifiques à PorteurProjet
-    Optional<PorteurProjet> findById(Long id);
+    Optional<PorteurProjet> findById(String id);
      
     @Query("SELECT p.projets FROM PorteurProjet p WHERE p.id = :porteurId")
     List<Projet> findProjetsByPorteurId(@Param("porteurId") Long id);

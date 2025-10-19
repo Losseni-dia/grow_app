@@ -20,12 +20,12 @@ public class PorteurProjetService {
         List<PorteurProjet> porteurProjets = new ArrayList<>();
         porteurProjetRepository.findAll().forEach(porteurProjets::add);
         if (porteurProjets.isEmpty()) {
-            throw new PorteurProjetNotFoundException(-1L);
+            throw new PorteurProjetNotFoundException(null);
         }
         return porteurProjets;
     }
 
-    public PorteurProjet get(Long id) {
+    public PorteurProjet get(String id) {
         return porteurProjetRepository.findById(id)
                 .orElseThrow(() -> new PorteurProjetNotFoundException(id));
     }
@@ -34,16 +34,18 @@ public class PorteurProjetService {
         porteurProjetRepository.save(porteur);
     }
 
-    public void deleteById(Long id) {
-        if (porteurProjetRepository.existsById(id)) {
-            porteurProjetRepository.deleteById(id);
+    public void deleteById(String id) {
+        Long indice = (long) Integer.parseInt(id);
+        if (porteurProjetRepository.existsById(indice)) {
+            porteurProjetRepository.deleteById(indice);
         } else {
             throw new PorteurProjetNotFoundException(id);
         }
     }
 
-    public void updatePorteurProjet(Long id, PorteurProjet porteurProjet) {
-        if (porteurProjetRepository.existsById(id)) {
+    public void updatePorteurProjet(String id, PorteurProjet porteurProjet) {
+        Long indice = (long) Integer.parseInt(id);
+        if (porteurProjetRepository.existsById(indice)) {
             porteurProjetRepository.save(porteurProjet);
         } else {
             throw new PorteurProjetNotFoundException(id);

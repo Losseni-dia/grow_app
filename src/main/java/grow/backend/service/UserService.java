@@ -21,42 +21,46 @@ public class UserService {
         List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(users::add);
         if (users.isEmpty()) {
-            throw new UserNotFoundException(-1L);
+            throw new UserNotFoundException(null);
         }
         return users;
     }
 
-    public User getUser(long id) {
+    public User get(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public List<User> getUser(String nom) {
-        List<User> users = new ArrayList<>();
-        userRepository.findAll().forEach(users::add);
-        if (users.isEmpty()) {
-            throw new UserNotFoundException(-1L);
-        }
-        return users;
-    }
-
-    public void addUser(User user) {
+    public void add(User user) {
         userRepository.save(user);
     }
 
-    public void updateUser(long id, User user) {
-        if (userRepository.existsById(id)) {
+    public void update(String id, User user) {
+        Long indice = (long) Integer.parseInt(id);
+        if (userRepository.existsById(indice)) {
             userRepository.save(user);
         } else {
             throw new UserNotFoundException(id);
         }
     }
 
-    public void deleteUser(long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
+    public void delete(String id) {
+        Long indice = (long) Integer.parseInt(id);
+        if (userRepository.existsById(indice)) {
+            userRepository.deleteById(indice);
         } else {
             throw new UserNotFoundException(id);
         }
     }
+
+    public List<User> getUserByNom(String nom) {
+        List<User> users = new ArrayList<>();
+        userRepository.findAll().forEach(users::add);
+        if (users.isEmpty()) {
+            throw new UserNotFoundException(null);
+        }
+        return users;
+    }
+
+    
 }
