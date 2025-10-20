@@ -9,5 +9,5 @@ import grow.backend.model.Role;
 public interface RoleRepository extends CrudRepository<Role, Long> {
     Role findByRole(String role);
 
-    Optional<Role> findById(String id);
+    Optional<Role> findById(Long id);
 }

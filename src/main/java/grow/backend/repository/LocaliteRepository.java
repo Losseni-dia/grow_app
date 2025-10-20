@@ -11,12 +11,12 @@ import java.util.Optional;
 
 @Repository
 public interface LocaliteRepository extends CrudRepository<Localite, Long> {
-    Optional<Localite> findByPays(String pays);
+    Optional<Localite> findByPaysNom(String nom);
 
-    Localite findById(String id);
+    Optional<Localite> findById(Long id);
     
-    Localite findByPostalCode(String postalCode);
+    Localite findByCodePostal(String codePostal);
 
-    Localite findByLocality(String localite);
+    Localite findByNom(String localiteNom);
 
 }

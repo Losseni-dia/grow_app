@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface ProjetRepository extends CrudRepository<Projet, Long> {
 
     // Recherche par id
-    Optional<Projet> findById(String id);
+    Optional<Projet> findById(Long id);
 
     // Recherche par description (libellé) partielle (contient)
     List<Projet> findByLibelleContainingIgnoreCase(String description);
@@ -29,5 +29,5 @@ public interface ProjetRepository extends CrudRepository<Projet, Long> {
     // Recherche par ville (nom) via site -> ville
     List<Projet> findBySiteProjetLocaliteNomIgnoreCase(String localite);
     
-    List<Projet> findByPorteurProjetId(String porteurProjetId);
+    List<Projet> findByPorteurProjetId(Long porteurProjetId);
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface SiteProjetRepository extends CrudRepository<SiteProjet, Long> {
-    Optional<SiteProjet> findByLocaliteId(String LocaliteId);
+    Optional<SiteProjet> findByLocaliteId(Long LocaliteId);
 
-    Optional<SiteProjet> findById(String id);
+    Optional<SiteProjet> findById(Long id);
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import grow.backend.exception.handler.PaysNotFoundException;
 import grow.backend.exception.handler.PorteurProjetNotFoundException;
 import grow.backend.model.PorteurProjet;
 import grow.backend.repository.PorteurProjetRepository;
@@ -26,8 +27,9 @@ public class PorteurProjetService {
     }
 
     public PorteurProjet get(String id) {
-        return porteurProjetRepository.findById(id)
-                .orElseThrow(() -> new PorteurProjetNotFoundException(id));
+        Long indice = (long) Integer.parseInt(id);
+        return porteurProjetRepository.findById(indice)
+                .orElseThrow(() -> new PaysNotFoundException(id));
     }
 
     public void add(PorteurProjet porteur) {

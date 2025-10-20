@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import grow.backend.exception.handler.DividendeNotFoundException;
 import grow.backend.exception.handler.InvestisseurNotFoundException;
+import grow.backend.exception.handler.UserNotFoundException;
 import grow.backend.model.Dividende;
 import grow.backend.model.Investissement;
 import grow.backend.model.StatutDividende;
@@ -23,8 +24,9 @@ public class DividendeService {
     }
 
     public Dividende get(String id) {
-        return dividendeRepository.findById(id)
-                .orElseThrow(() -> new DividendeNotFoundException(id));
+        Long indice = (long) Integer.parseInt(id);
+        return dividendeRepository.findById(indice)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
      public List<Dividende> getAll() {
@@ -56,7 +58,8 @@ public class DividendeService {
     }
 
     public Optional<Dividende> getAllByPart(String partId) {
-        Optional<Dividende> dividendes = dividendeRepository.findByPartId(partId);
+        Long indice = (long) Integer.parseInt(partId);
+        Optional<Dividende> dividendes = dividendeRepository.findByPartId(indice);
         if (dividendes.isEmpty()) {
             throw new DividendeNotFoundException(partId); // ou exception spécifique si id est partId
         }

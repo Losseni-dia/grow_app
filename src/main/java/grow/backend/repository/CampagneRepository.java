@@ -9,9 +9,9 @@ import org.springframework.data.repository.CrudRepository;
 import grow.backend.model.Campagne;
 
 public interface CampagneRepository extends CrudRepository<Campagne, Long> {
-   Optional<Campagne> findById(String id);
+   Optional<Campagne> findById(Long id);
     
-   Optional<Campagne> findByProjetId(String projetId);
+   Optional<Campagne> findByProjetLibelle(String projetLibelle);
      // Recherche de campagnes actives plus spécifiques selon dates (exemple)
     List<Campagne> findByDateDebutBeforeAndDateFinAfter(LocalDateTime start, LocalDateTime end);
 

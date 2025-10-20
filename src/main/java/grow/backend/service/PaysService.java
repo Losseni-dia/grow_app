@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import grow.backend.exception.handler.CampagneNotFoundException;
 import grow.backend.exception.handler.PaysNotFoundException;
+import grow.backend.exception.handler.UserNotFoundException;
 import grow.backend.model.Pays;
 import grow.backend.repository.PaysRepository;
 
@@ -28,8 +29,10 @@ public class PaysService {
         return result;
     }
 
-    public void get(String id) {
-        paysRepository.findById(id).orElse(null);
+    public Pays get(String id) {
+        Long indice = (long) Integer.parseInt(id);
+        return paysRepository.findById(indice)
+                .orElseThrow(() -> new PaysNotFoundException(id));
     }
 
     public void add(Pays pays) {

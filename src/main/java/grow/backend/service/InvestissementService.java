@@ -24,8 +24,9 @@ public class InvestissementService {
     }
 
     public Investissement get(String id) {
-        return investissementRepository.findById(id)
-                .orElseThrow(() -> new InvestissementNotFoundException(id));
+        Long indice = (long) Integer.parseInt(id);
+        return investissementRepository.findById(indice)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     public List<Investissement> getAll() {
@@ -39,7 +40,8 @@ public class InvestissementService {
 
     public Investissement updateInvestissement(String id, Investissement updatedInvestissement) {
         // On cherche l'investissement à mettre à jour
-        Investissement existingInvestissement = investissementRepository.findById(id)
+        Long indice = (long) Integer.parseInt(id);
+        Investissement existingInvestissement = investissementRepository.findById(indice)
                 .orElseThrow(() -> new InvestissementNotFoundException(id));
 
         // Mise à jour des champs modifiables
@@ -64,7 +66,8 @@ public class InvestissementService {
     }
     
     public List<Investissement> getAllByCampagne(String campagneId) {
-        List<Investissement> investissements = investissementRepository.findByCampagneId(campagneId);
+        Long indice = (long) Integer.parseInt(campagneId);
+        List<Investissement> investissements = investissementRepository.findByCampagneId(indice);
         if (investissements.isEmpty()) {
             throw new InvestissementNotFoundException(campagneId);
         }
@@ -72,7 +75,8 @@ public class InvestissementService {
     }
 
     public List<Investissement> getByInvestisseur(String investisseurId) {
-        List<Investissement> investissements = investissementRepository.findByInvestisseurId(investisseurId);
+        Long indice = (long) Integer.parseInt(investisseurId);
+        List<Investissement> investissements = investissementRepository.findByInvestisseurId(indice);
         if (investissements.isEmpty()) {
             throw new InvestisseurNotFoundException(investisseurId);
         }
@@ -80,7 +84,8 @@ public class InvestissementService {
     }
 
     public void UpdatePart(String investissementId, int nombreParts) {
-        Investissement investissement = investissementRepository.findById(investissementId)
+        Long indice = (long) Integer.parseInt(investissementId);
+        Investissement investissement = investissementRepository.findById(indice)
                 .orElseThrow(() -> new InvestissementNotFoundException(investissementId));
         Part part = investissement.getPart();
 

@@ -44,12 +44,14 @@ public class ProjetService {
     }
 
     public Projet get(String id) {
-        return projetRepository.findById(id)
+        Long indice = (long) Integer.parseInt(id);
+        return projetRepository.findById(indice)
                 .orElseThrow(() -> new ProjetNotFoundException(id));
     }
 
     public List<Projet> findByPorteurProjetId(String porteurId) {
-        List<Projet> projets = projetRepository.findByPorteurProjetId(porteurId);
+        Long indice = (long) Integer.parseInt(porteurId);
+        List<Projet> projets = projetRepository.findByPorteurProjetId(indice);
         if (projets.isEmpty()) {
             throw new ProjetNotFoundException(porteurId);
         }
@@ -94,7 +96,8 @@ public class ProjetService {
         
     @Transactional
     public void update(String id, Projet projetModifie) {
-        Projet projetExistant = projetRepository.findById(id)
+        Long indice = (long) Integer.parseInt(id);
+        Projet projetExistant = projetRepository.findById(indice)
                 .orElseThrow(() -> new ProjetNotFoundException("Projet non trouvé avec id " + id));
     
         projetExistant.setLibelle(projetModifie.getLibelle());

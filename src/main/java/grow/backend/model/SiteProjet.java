@@ -17,18 +17,24 @@ public class SiteProjet {
 
     private String nom;
 
+    private String adresse;
+
+    private String contact;
+
+    private String responsable;
+
     @ManyToOne
-    @JoinColumn(name = "localite_id")
+    @JoinColumn(name = "localite_id", nullable=false)
     private Localite localite;
 
     @OneToMany(mappedBy = "siteProjet")
     private List<Projet> projets;
 
+
     public void setLocalite(Localite localite) {
+        this.localite.removeSite(this); // déménager de l’ancienne localité
         this.localite = localite;
-        if (localite != null && !localite.getSites().contains(this)) {
-            localite.getSites().add(this);
-        }
+        this.localite.addSite(this); // emménager dans la nouvelle localité
     }
 
     public void addProjet(Projet projet) {

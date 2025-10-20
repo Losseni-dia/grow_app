@@ -27,12 +27,14 @@ public class SiteService {
     }
 
     public SiteProjet get(String id) {
-        return siteRepository.findById(id)
+        Long indice = Long.parseLong(id);
+        return siteRepository.findById(indice)
                 .orElseThrow(() -> new SiteProjetNotFoundException(id));
     }
 
     public Optional<SiteProjet> findByLocaliteId(String localiteId) {
-        Optional<SiteProjet> sites = siteRepository.findByLocaliteId(localiteId);
+        Long indice = (long) Integer.parseInt(localiteId);
+        Optional<SiteProjet> sites = siteRepository.findByLocaliteId(indice);
         if (sites.isEmpty()) {
             throw new SiteProjetNotFoundException(localiteId);
         }

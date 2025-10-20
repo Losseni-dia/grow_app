@@ -7,8 +7,8 @@ import java.util.Optional;
 import java.util.ArrayList;
 
 import grow.backend.exception.handler.CampagneNotFoundException;
-import grow.backend.exception.handler.InvestisseurNotFoundException;
 import grow.backend.exception.handler.LocaliteNotFoundException;
+import grow.backend.exception.handler.UserNotFoundException;
 import grow.backend.model.Localite;
 import grow.backend.repository.LocaliteRepository;
 
@@ -30,11 +30,13 @@ public class LocaliteService {
     }
 
     public Localite get(String id) {
-        return localiteRepository.findById(id);
+         Long indice = (long) Integer.parseInt(id);
+        return localiteRepository.findById(indice)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public Optional<Localite> findByPaysId(String pays) {
-        return localiteRepository.findByPays(pays);
+    public Optional<Localite> findByPaysNom(String pays) {
+        return localiteRepository.findByPaysNom(pays);
     }
 
     public void add(Localite ville) {

@@ -3,6 +3,8 @@ package grow.backend.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,7 +26,7 @@ public class Localite {
     private Pays pays;
 
     @OneToMany(mappedBy = "localite")
-    private List<SiteProjet> sites;
+    private List<SiteProjet> sites  = new ArrayList<>();
 
 
     public void setPays(Pays pays) {
@@ -35,14 +37,14 @@ public class Localite {
     }
 
 
-    public void addSiteProjet(SiteProjet site) {
+    public void addSite(SiteProjet site) {
         sites.add(site);
         if (site.getLocalite() != this) {
             site.setLocalite(this);
         }
     }
 
-    public void removesite(SiteProjet site) {
+    public void removeSite(SiteProjet site) {
         sites.remove(site);
         if (site.getLocalite() != this) {
             site.setLocalite(null);

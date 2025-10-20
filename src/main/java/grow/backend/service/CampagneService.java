@@ -2,6 +2,7 @@ package grow.backend.service;
 
 import grow.backend.exception.handler.CampagneNotFoundException;
 import grow.backend.exception.handler.DividendeNotFoundException;
+import grow.backend.exception.handler.UserNotFoundException;
 import grow.backend.model.Campagne;
 import grow.backend.model.Dividende;
 import grow.backend.model.Investissement;
@@ -27,8 +28,9 @@ public class CampagneService {
 
     // Read (Get by Id)
     public Campagne get(String id) {
-        return campagneRepository.findById(id)
-                .orElseThrow(() -> new CampagneNotFoundException(id));
+          Long indice = (long) Integer.parseInt(id);
+        return campagneRepository.findById(indice)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
       public List<Campagne> getAll() {
@@ -43,10 +45,10 @@ public class CampagneService {
     }
 
     // Read (Get by Projet Id)
-    public Optional<Campagne> getByProjetId(String projetId) {
-        Optional<Campagne> campagnes = campagneRepository.findByProjetId(projetId);
+    public Optional<Campagne> getByProjetNom(String projetLibelle) {
+        Optional<Campagne> campagnes = campagneRepository.findByProjetLibelle(projetLibelle);
         if (campagnes.isEmpty()) {
-            throw new CampagneNotFoundException(projetId); // Pas de campagne pour ce projet
+            throw new CampagneNotFoundException(projetLibelle); // Pas de campagne pour ce projet
         }
         return campagnes;
     }

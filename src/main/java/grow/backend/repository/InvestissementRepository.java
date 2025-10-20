@@ -8,9 +8,9 @@ import org.springframework.data.repository.CrudRepository;
 import grow.backend.model.Investissement;
 
 public interface InvestissementRepository extends CrudRepository<Investissement, Long> {
-    List<Investissement> findByCampagneId(String campagneId);
+    List<Investissement> findByCampagneId(Long campagneId);
 
-    List<Investissement> findByInvestisseurId(String investisseurId);
+    List<Investissement> findByInvestisseurId(Long investisseurId);
 
-    Optional<Investissement> findById(String id);
+    Optional<Investissement> findById(Long id);
 }

@@ -27,7 +27,8 @@ public class UserService {
     }
 
     public User get(String id) {
-        return userRepository.findById(id)
+        Long indice = (long) Integer.parseInt(id);
+        return userRepository.findById(indice)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
