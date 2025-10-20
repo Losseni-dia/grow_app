@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Liste des campagnes</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1 th:text="${title}">Liste des campagnes</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Référence</th>
+                    <th>Libellé</th>
+                    <th>Projet</th>
+                    <th>Localité</th>
+                    <th>Pays</th>
+                    <th>Objectif</th>
+                    <th>Prix/part</th>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Nombre investisseurs</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c : ${campagnes}">
+                    <td th:text="${c.id}">1</td>
+                    <td th:text="${c.reference}">1</td>
+                    <td th:text="${c.libelle}">GrowZ</td>
+                    <!-- Projet, SiteProjet, Localite, Pays -->
+                    <td th:text="${c.projet?.libelle} ?: 'Projet inconnu'">GrowZ</td>
+                    <td th:text="${c.projet?.siteProjet?.localite?.nom} ?: '-'">Odienné</td>
+                    <td th:text="${c.projet?.siteProjet?.localite?.pays?.nom} ?: '-'">Côte d'Ivoire</td>
+                    <td th:text="${#numbers.formatDecimal(c.objectifFinancement, 0, 2)} + ' €'">1,000,000.00 €</td>
+                    <td th:text="${c.partsDisponible > 0
+                    ? #numbers.formatDecimal(c.objectifFinancement / c.partsDisponible, 0, 2) + ' €': 'N/A'
+                    }">1000.00 €</td>
+                    <td th:text="${#temporals.format(c.dateDebut, 'dd/MM/yyyy')}">15/01/2025</td>
+                    <td th:text="${#temporals.format(c.dateFin, 'dd/MM/yyyy')}">15/06/2025</td>
+                    <td th:text="${#lists.size(c.investissements)}">3</td>
+                    <td>
+                        <a th:href="@{/campagnes/{id}(id=${c.id})}" class="btn btn-sm">Voir</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p th:if="${#lists.isEmpty(campagnes)}" class="text-muted">
+            Aucune campagne disponible.
+        </p>
+
+        <nav class="mt-4">
+            <a th:href="@{/}" class="btn">Accueil</a>
+        </nav>
+    </div>
+</body>
+
+</html>

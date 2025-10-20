@@ -7,14 +7,20 @@ import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
 import grow.backend.model.Campagne;
+import grow.backend.model.Projet;
 
 public interface CampagneRepository extends CrudRepository<Campagne, Long> {
-   Optional<Campagne> findById(Long id);
+  Optional<Campagne> findById(Long id);
+   
+  Campagne findByLibelle(String libelle);
+  
+  Campagne findByReference(Integer reference);
     
-   Optional<Campagne> findByProjetLibelle(String projetLibelle);
-     // Recherche de campagnes actives plus spécifiques selon dates (exemple)
-    List<Campagne> findByDateDebutBeforeAndDateFinAfter(LocalDateTime start, LocalDateTime end);
+  Optional<Campagne> findByProjet(Projet projet);
 
-    // Recherche par objectif de financement supérieur à une valeur donnée
-    List<Campagne> findByObjectifFinancementGreaterThan(double montant);
+  // Recherche de campagnes actives plus spécifiques selon dates (exemple)
+  List<Campagne> findByDateDebutBeforeAndDateFinAfter(LocalDateTime start, LocalDateTime end);
+
+  // Recherche par objectif de financement supérieur à une valeur donnée
+  List<Campagne> findByObjectifFinancementGreaterThan(double montant);
 }

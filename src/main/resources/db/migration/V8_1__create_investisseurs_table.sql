@@ -1,5 +1,5 @@
 CREATE TABLE `investisseurs` (
-  `id` int(10) NOT NULL,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `portefeuille_total` DOUBLE DEFAULT 0,
   `diaspora` BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (`id`),

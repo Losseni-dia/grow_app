@@ -69,10 +69,9 @@ public class Projet {
     }
     
     public void setSiteProjet(SiteProjet site) {
-        this.siteProjet = site;
-        if (siteProjet != null && !siteProjet.getProjets().contains(this)) {
-            siteProjet.getProjets().add(this);
-        }
+        this.siteProjet.removeProjet(this); //déménager de l'ancien site
+        this.siteProjet.addProjet(this);    // emménager sur le nouveau site
+
     }
 
     public void addCampagne(Campagne campagne) {

@@ -18,25 +18,28 @@ public class Campagne {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long reference;
+    private Integer reference;
 
     private String libelle;
     
     private double objectifFinancement;
 
+    @Column(name= "financement_debut")
     private LocalDateTime dateDebut;
 
+    @Column(name = "financement_fin")
     private LocalDateTime dateFin;
 
     private int partsDisponible;
 
     private double pourcentParts;
 
-    private String medias; // vidéos, docs etc.
+    @Column(name = "medias_url")
+    private String mediasUrl; // vidéos, docs etc.
 
     private String docProjetPath; // chemin ou référence fichier
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "projet_id")
     private Projet projet;
 
@@ -45,10 +48,8 @@ public class Campagne {
 
     // Méthode utile pour gérer la relation bidirectionnelle
     public void setProjet(Projet projet) {
-        this.projet = projet;
-        if (projet != null && !projet.getCampagnes().contains(this)) {
-            projet.getCampagnes().add(this);
-        }
+        this.projet.removeCampagne(this);
+        this.projet.addCampagne(this);
     }
 
     public void addInvestissement(Investissement investissement) {

@@ -3,6 +3,8 @@ package grow.backend.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,7 +30,7 @@ public class SiteProjet {
     private Localite localite;
 
     @OneToMany(mappedBy = "siteProjet")
-    private List<Projet> projets;
+    private List<Projet> projets = new ArrayList<>();
 
 
     public void setLocalite(Localite localite) {
@@ -38,14 +40,15 @@ public class SiteProjet {
     }
 
     public void addProjet(Projet projet) {
-        projets.add(projet);
-        if (projet.getSiteProjet() != this) {
+        if (!this.projets.contains(projet)) {
+            this.projets.add(projet);
             projet.setSiteProjet(this);
         }
     }
 
     public void removeProjet(Projet projet) {
-        if (projet.getSiteProjet() != this) {
+        if (this.projets.contains(projet)) {
+            this.projets.remove(projet);
             projet.setSiteProjet(null);
         }
     }

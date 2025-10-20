@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Fiche Campagne</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <!-- TITRE -->
+        <h1 th:text="${campagne.libelle}">Campagne GrowZ</h1>
+
+        <!-- IMAGE (gère TOUS les cas) -->
+        <p>
+            <img th:with="medias=${#strings.arraySplit(campagne.mediasUrl, ',')}"
+                th:src="@{'/images/' + ${#arrays.contains(medias, 'grow.jpg') ? 'grow.jpg' : (medias[0]?.trim() ?: 'default.jpg')}}"
+                th:alt="${campagne.libelle}" src="/images/default.jpg" alt="Affiche de la campagne" width="200"
+                style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 15px 0; display: block;"
+                onerror="this.src='/images/default.jpg';">
+        </p>
+
+        <!-- Informations générales -->
+        <div class="section">
+            <h2>Informations générales</h2>
+            <p><strong>ID :</strong> <span th:text="${campagne.id}">1</span></p>
+            <p><strong>Référence :</strong> <span th:text="${campagne.reference}">1</span></p>
+            <p><strong>Objectif :</strong>
+                <span th:text="${#numbers.formatDecimal(campagne.objectifFinancement, 0, 2)} + ' €'">1,000,000.00
+                    €</span>
+            </p>
+            <p><strong>Début :</strong>
+                <span th:text="${#temporals.format(campagne.dateDebut, 'dd/MM/yyyy HH:mm')}">15/01/2025 08:00</span>
+            </p>
+            <p><strong>Fin :</strong>
+                <span th:text="${#temporals.format(campagne.dateFin, 'dd/MM/yyyy HH:mm')}">15/06/2025 18:00</span>
+            </p>
+            <p><strong>Parts disponibles :</strong> <span th:text="${campagne.partsDisponible}">1000</span></p>
+            <p><strong>Prix d'une part :</strong>
+                <span
+                    th:text="${campagne.partsDisponible > 0 ? #numbers.formatDecimal(campagne.objectifFinancement / campagne.partsDisponible, 0, 2) + ' €' : 'N/A'}">1000.00
+                    €</span>
+            </p>
+        </div>
+
+        <!-- DOCUMENTATION : MARCHE POUR TOUS LES CAS -->
+        <div class="section" th:if="${campagne.mediasUrl != null and !#strings.isEmpty(campagne.mediasUrl)}">
+            <h2>Documentation</h2>
+            <div th:each="media : ${#strings.arraySplit(campagne.mediasUrl, ',')}">
+                <!-- SAUTE UNIQUEMENT SI C'EST UNE IMAGE -->
+                <div
+                    th:if="${!#strings.toLowerCase(#strings.trim(media)).endsWith('.jpg') and !#strings.toLowerCase(#strings.trim(media)).endsWith('.png')}">
+
+                    <!-- PDF -->
+                    <div th:if="${#strings.toLowerCase(#strings.trim(media)).endsWith('.pdf')}">
+                        <a th:href="@{'/docs/' + ${#strings.trim(media)}}" target="_blank">
+                            📄 Business plan: <span th:text="${#strings.trim(media)}"></span>
+                        </a>
+                    </div>
+
+                    <!-- MP4 -->
+                    <div th:if="${#strings.toLowerCase(#strings.trim(media)).endsWith('.mp4')}">
+                        <video controls width="300" style="margin: 10px 0;">
+                            <source th:src="@{'/medias/' + ${#strings.trim(media)}}" type="video/mp4">
+                            Votre navigateur ne supporte pas la vidéo.
+                        </video>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Projet -->
+        <div class="section" th:if="${campagne.projet != null}">
+            <h2>Projet associé</h2>
+            <p><strong>Nom du projet :</strong>
+                <span th:text="${campagne.projet.libelle} ?: 'Projet sans nom'">GrowZ</span>
+            </p>
+            <div th:if="${campagne.projet.siteProjet != null}">
+                <p><strong>Adresse du site :</strong>
+                    <span th:text="${campagne.projet.siteProjet.adresse} ?: 'Non renseignée'">Rue Principale</span>
+                </p>
+                <p><strong>Localité :</strong>
+                    <span th:text="${campagne.projet.siteProjet.localite?.nom} ?: 'Non définie'">Odienné</span>,
+                    <span th:text="${campagne.projet.siteProjet.localite?.codePostal} ?: ''">3400</span>
+                </p>
+                <p><strong>Pays :</strong>
+                    <span th:text="${campagne.projet.siteProjet.localite?.pays?.nom} ?: 'Inconnu'">Côte d'Ivoire</span>
+                </p>
+            </div>
+            <p th:if="${campagne.projet.siteProjet == null}" class="text-muted">
+                Aucun site projet associé.
+            </p>
+        </div>
+
+        <!-- Investissements -->
+        <div class="section" th:if="${not #lists.isEmpty(campagne.investissements)}">
+            <h2>Investissements</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Investisseur</th>
+                        <th>Montant</th>
+                        <th>Moyen</th>
+                        <th>Frais</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="inv : ${campagne.investissements}">
+                        <td th:text="${#temporals.format(inv.date, 'dd/MM/yyyy HH:mm')}">01/02/2025 10:30</td>
+                        <td
+                            th:text="${inv.investisseur != null ? inv.investisseur.prenom + ' ' + inv.investisseur.nom : 'Anonyme'}">
+                            Jean Dupont</td>
+                        <td th:text="${#numbers.formatDecimal(inv.montant, 0, 2)} + ' €'">10,000.00 €</td>
+                        <td th:text="${inv.moyenPaiement}">BANCONTACT</td>
+                        <td th:text="${#numbers.formatDecimal(inv.frais, 0, 2)} + ' €'">300.00 €</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p th:if="${#lists.isEmpty(campagne.investissements)}" class="text-muted">
+            Aucun investissement pour cette campagne.
+        </p>
+
+        <!-- Navigation -->
+        <nav class="mt-4">
+            <a th:href="@{/campagnes}" class="btn">Retour à la liste</a>
+        </nav>
+    </div>
+</body>
+
+</html>

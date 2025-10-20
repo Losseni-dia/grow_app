@@ -1,11 +1,10 @@
 package grow.backend.service;
 
 import grow.backend.exception.handler.CampagneNotFoundException;
-import grow.backend.exception.handler.DividendeNotFoundException;
 import grow.backend.exception.handler.UserNotFoundException;
 import grow.backend.model.Campagne;
-import grow.backend.model.Dividende;
 import grow.backend.model.Investissement;
+import grow.backend.model.Projet;
 import grow.backend.repository.CampagneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,12 +44,21 @@ public class CampagneService {
     }
 
     // Read (Get by Projet Id)
-    public Optional<Campagne> getByProjetNom(String projetLibelle) {
-        Optional<Campagne> campagnes = campagneRepository.findByProjetLibelle(projetLibelle);
+    public Optional<Campagne> getByProjet(Projet projet) {
+        Optional<Campagne> campagnes = campagneRepository.findByProjet(projet);
         if (campagnes.isEmpty()) {
-            throw new CampagneNotFoundException(projetLibelle); // Pas de campagne pour ce projet
+            throw new CampagneNotFoundException(null); // Pas de campagne pour ce projet
         }
         return campagnes;
+    }
+
+    public Campagne getByReferenceOptional(String ref) {
+        Integer indice = Integer.parseInt(ref);
+        Campagne campagne = campagneRepository.findByReference(indice);
+        if (campagne == null) {
+            throw new CampagneNotFoundException(null); // Pas de campagne pour ce projet
+        }
+        return campagne;
     }
 
     // Update
